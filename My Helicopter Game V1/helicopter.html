@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <title>Helicopter Game</title>
+        <style>
+            body {
+                background-color: #d0e4fe;
+            }
+            p { 
+                font-family:  "Times New Roman"; 
+                font-size: 28px;
+                text-align: center;
+            }
+            .line1{
+                font-family: "Courier New";
+                color:orange;
+                text-align:center;
+                font-size: 28px;
+            }
+        </style>
+    </head> 
+    <body>
+        <div>
+            <div class="line1"><h1>Helicopter Game 2.0</h1></div>
+            <div><p>Navigate the cave without hitting the objects</p></div>
+            <div align="center">
+                <canvas id="helicopter" width=500 height=300></canvas>
+            </div>
+            <script>
+                canvas = document.getElementById('helicopter');
+                context = canvas.getContext('2d');
+                //GB variables
+                var force = 0;      // the speed the copper falls 
+                var push = false;   // mouseClick
+                var gameOn = false;
+                var score = 0;      //score 
+                var highScore = 0;  // high score
+                var moving = false;
+                var speed = 5;                        
+                var image1 = new Image();  // this is the chopper image object. 
+                image1.src = 'helicopter.png';// this is where the image is. 
+                image1.width = 75; // how big the chopper is. 
+                image1.height = 30;
+                                 
+                ///Obstacles////////////////////////////////////////////////////
+                function Obstacle(x, y, width, height, xSpeed, color) {
+                    this.x = x; //x // where the obstacles are drawn 
+                    this.y = y; //y // 
+                    this.width = width; // the size of the obstacle 
+                    this.height = height;
+                    this.color = color; // color of obstacles 
+                    this.xSpeed = xSpeed;
+                    this.draw = function () {
+                        context.fillRect(this.x, this.y, this.width, this.height);
+                    };
+                    this.update = function () {
+                        if (this.x < -50) { //-50 is beyond the screen
+                            this.x = canvas.width * 1.5; // 1.5 // this is where you can space the obstacles 
+                            this.y = 20 + Math.random() * canvas.height * 0.5;
+                            this.height = 50 + Math.random() * 150;
+                        } else {        // The higher the x Speed the more pixales it skips.
+                            this.x -= this.xSpeed;     // The obstacles move along the x axis. 
+                        }
+                    };
+                }////End of obstacles///////////////////////////////////////////
+                
+                
+                var obstacles = new Array(); // array to hold the obstacles 
+               
+               
+                
+                ///init_obstacles array/////////////////////////////////////////
+                function init_obstacles(numObstacles) {
+                    for (var iter = 0; iter < numObstacles; iter++) {
+                        obstacles[iter] = new Obstacle(canvas.width + canvas.width / 2 * iter, 20 + Math.random() * canvas.height / 2, 20, 20 + Math.random() * 150, speed, '#00BFFF');
+                    }
+                }//end of init_obstacles        
+                
+                //////THE_CHOPPER()/////////////////////////////////////////////
+                function Chopper(x, y) {
+                    this.x = x; //x           // where the chopper is on the screen 
+                    this.y = y; //y 
+                    this.width = 20;          //size of rectangle 
+                    this.height = 20;          
+                    this.isAlive = true;      // chopper is alive, for now 
+                    this.color = "#FFFFFF";   // color while Alive(white)  
+                    
+                    this.start = function () {
+                        this.x = 150;
+                        this.y = 120;
+                    };
+                    
+                    this.update = function () { // player update this is where you do collision detection. 
+                        if (this.isAlive === true && this.y < canvas.height - this.height - 25 && this.y > 25) {
+                            this.y += force; // don't think that the top of the screen is the height
+                            this.color = "#FFFFFF";   // color while Alive(white)  
+                        } else { //  chopper is dead 
+                            gameOn = false;
+                            //this.isAlive = false; // chopper is not alive 
+                            this.color = "#FF0000"; // if choper is dead go Red                  
+                        }
+                        if (obstacles[0].x < 170 && obstacles[0].x > 140) { //did chopper clloide with obstacle 0?
+                            if (this.y + 10 > obstacles[0].y && this.y + 10 <= (obstacles[0].y + obstacles[0].height))
+                                this.isAlive = false;
+                        }
+                        if (obstacles[1].x < 170 && obstacles[1].x > 140) { //did chopper clloide with obstacle 1?
+                            if (this.y + 10 >= obstacles[1].y && this.y + 10 <= obstacles[1].y + obstacles[1].height)
+                                this.isAlive = false;
+                        }
+                        if (obstacles[2].x < 170 && obstacles[2].x > 140) { //did chopper clloide with obstacle 2?
+                            if (this.y + 10 >= obstacles[2].y && this.y + 10 <= obstacles[2].y + obstacles[2].height)
+                                this.isAlive = false;
+                        }
+                    };
+                    this.draw = function () { // draw the square
+                        //context.fillStyle = this.color;
+                        //context.fillRect(this.x, this.y, this.width, this.height);
+                        context.drawImage(image1, this.x, this.y, image1.width, image1.height);
+                        
+               
+                    };
+                }; // end of chopper
+                ////////////////////////////////////////////////////////////////
+                
+                var player = new Chopper(150, 120); // new chopper object
+                
+                ////USER_IMPUT//////////////////////////////////////////////////
+                canvas.addEventListener('mousedown', handleMouseDown);
+                canvas.addEventListener('mouseup', handleMouseUp);
+                function handleMouseDown(e) { //handler for mouse down 
+                    push = true;              // chopper up 
+                }
+                function handleMouseUp(e) {  //handler for mouse up 
+                    push = false;            //chopper down                           
+                }
+                document.addEventListener('keydown', function (evt) {
+                    if (evt.keyCode === 32 && gameOn === false) {
+                        gameOn = true;
+                        player.isAlive = true;
+                        player.start();
+                        if (moving === false) {
+                            init_obstacles(3);
+                        }
+                    } 
+                });
+                ////////////////////////////////////////////////////////////////
+                ///GAME_UPDATE()/////////////////////////////////////////////////////
+                function update() {
+                    if (gameOn === true) { // if dead stop updating the obstacles 
+                        moving = true;
+                        score += 2;      // update the score by adding points 
+                        player.update(); // update player object 
+                        if (push) // mouse click down 
+                            force = -3.5;
+                        else   // release 
+                            force = 4.5;
+                        for (var iter = 0; iter < obstacles.length; iter++) {
+                            obstacles[iter].update();           // loop and update each obstacle 
+                        }
+                        if (score !== 0 && score > highScore) { // if not game one and score is greater then highScore 
+                            highScore = score;             // then the highScore has been passed 
+                        }
+                    } else {
+                        if (score !== 0) {
+                            moving = false;
+                            highScore = score;
+                            score = 0;
+                        }
+                    }
+                }
+                ////////////////////////////////////////////////////////////////
+                ///GAME_DRAW()///////////////////////////////////////////////////////
+                function draw() {
+                    context.fillStyle = "#000000";  // black 
+                    context.fillRect(0, 0, canvas.width, canvas.height);    // fill the canvas
+                    context.fillStyle = "#00BFFF";  // blue
+                    context.fillRect(0, 0, canvas.width, 30);   // upper Rect
+                    context.fillRect(0, canvas.height - 30, canvas.width, 30);  // lower Rect  
+                    for (var iter = 0; iter < obstacles.length; iter++) { // for loop draw obstacles
+                        obstacles[iter].draw();
+                    }
+                    player.draw(); // draw the chopper
+                    if (gameOn === false) {
+                        context.fillStyle = "#FFFFFF";
+                        context.font = "30px Lucida Console";
+                        context.fillText('press space bar', 150, 24);
+                        context.fillText('High Score: ', canvas.width - 250, canvas.height - 5);
+                        context.fillText(highScore, canvas.width - 100, canvas.height - 5);
+                    } else { // else the game is on                                          
+                        context.fillStyle = "#FFFFFF";
+                        context.font = "30px Lucida Console";
+                        context.fillText(score, 10, canvas.height - 5);
+                        context.fillText('High Score: ', canvas.width - 250, canvas.height - 5);
+                        context.fillText(highScore, canvas.width - 100, canvas.height - 5);
+                    }
+                } //End draw
+                ////////////////////////////////////////////////////////////
+                ////GAME_LOOP()/////////////////////////////////////////////
+                function game_loop() { // game loop this is where the action takes place 
+                    update(); // update the things on the screen 
+                    draw(); // draw the things on the screen 
+                }
+                setInterval(game_loop, 30); // interval for game loop 30FPS  
+            </script>
+        </div>
+    </body>
+</html>
