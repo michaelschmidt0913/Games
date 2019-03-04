@@ -41,6 +41,10 @@
                 image1.src = 'helicopter.png';// this is where the image is. 
                 image1.width = 75; // how big the chopper is. 
                 image1.height = 30;
+                var image2 = new Image(); 
+                image2.src = 'Damagehelicopter.png';
+                image2.width = 80; // how big the chopper is. 
+                image2.height = 35;
                                  
                 ///Obstacles////////////////////////////////////////////////////
                 function Obstacle(x, y, width, height, xSpeed, color) {
@@ -115,9 +119,14 @@
                     this.draw = function () { // draw the square
                         //context.fillStyle = this.color;
                         //context.fillRect(this.x, this.y, this.width, this.height);
-                        context.drawImage(image1, this.x, this.y, image1.width, image1.height);
+                        //context.drawImage(image1, this.x, this.y, image1.width, image1.height);
                         
-               
+                        if(this.isAlive === false){
+                            context.drawImage(image2, this.x, this.y, image1.width, image1.height);
+                        }else{
+                            context.drawImage(image1, this.x, this.y, image1.width, image1.height);
+                        }
+
                     };
                 }; // end of chopper
                 ////////////////////////////////////////////////////////////////
