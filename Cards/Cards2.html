@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<meta charset="utf-8" /> 
+<html>
+	<head>
+		<title>Cards</title>
+	</head>
+	<body>
+		<h2>Cards</h2>
+		<div>
+			<button onclick="createDeck()">NewDeck</button></div>
+		<div>
+		<div>
+			<button onclick="DrawAllCards()">DrawAllCards</button></div>
+		<div>
+			<canvas id="cardTable" width=1000 height=800></canvas>
+		</div>
+	</body>
+	<script>
+
+	var canvas = document.getElementById("cardTable");
+	var ctx = canvas.getContext("2d"); 
+	// image object for the table image 
+	var table = new Image(); 
+	table.src = "images/table.png"; // source for table image 
+	var theDeck = new Array();
+
+ 	function createDeck(){ 
+
+		for(var i =0; i<53; i++){
+			var theCard = new Image();
+			theCard.src = "images/cards/gbCard" + i +".gif";  // get the source for the source
+			theDeck[i] = new card(theCard, 10, 10);
+			console.log(theDeck[i]);
+		}
+		//console.log("//////////////////");
+    } // end of createDeck 
+
+    function DrawAllCards(){
+
+    	var x=10; // Draw Point x
+		var y=10; // Draw point y 
+		var i; 
+		
+		for(i = 0; i < 53; i ++){
+		
+			if(i === 13 || i === 26 || i === 39 || i ===52){
+				x = 10; // move back to starting point on x 
+				y +=110; // move down to the next row of cards.
+			}
+			theDeck[i].setx(x);
+			theDeck[i].sety(y);
+			x += 75; // move to the right
+			theDeck[i].drawCard();
+			//console.log(theDeck[i]);
+		}
+    } // end of DrawAllCards
+
+    class card{
+    	
+    	constructor(img, the_x, the_y ) {
+    		this.x = the_x; //x	// where the obstacles are drawn 
+            this.y = the_y; //y // 
+     		this.cardImg = img; 
+     	}
+
+     	drawCard(){
+                ctx.drawImage(this.cardImg, this.x, this.y);
+            };
+
+        setx(new_x){
+        	this.x = new_x;	
+        }   
+		sety(new_y){
+			this.y = new_y;
+		}      
+    }; // end of card class 
+
+
+	window.onload = draw; 
+
+	function draw(){
+		
+	ctx.drawImage(table, 0 , 0);
+
+	}
+	</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<meta charset="utf-8" /> 
+<html>
+	<head>
+		<title>Cards</title>
+	</head>
+	<body>
+		<h2>Cards</h2>
+
+		<div>
+			<button onclick="drawDeck()">MyDeck</button></div>
+		<div>	
+			<canvas id="cardTable" width=1000 height=800></canvas>
+		</div>
+	</body>
+	<script>
+
+	var canvas = document.getElementById("cardTable");
+	var ctx = canvas.getContext("2d"); 
+	// image object for the table image 
+	var table = new Image(); 
+	table.src = "images/table.png"; // source for table image 
+
+	// Array to hold the card Images.
+	var deck = new Array();
+	createDeck();
+
+
+	function createDeck(){
+		for(var i=0; i<=52; i++){
+			var myCard = new Image(); 
+			myCard.src = "images/cards/gbCard" + i +".gif";
+			deck.push(myCard);
+		}
+	}
+
+
+	function drawDeck(){
+		
+		var x = 10; // start points 
+		var y = 10;
+
+		for(var i = 0; i<deck.length; i++){
+			if(i === 13 || i === 26 || i === 39 || i ===52){
+				x = 10; // move back to starting point on x 
+				y +=110; // move down to the next row of cards. 
+			}
+			
+			ctx.drawImage(deck[i], x, y);
+
+			console.log(deck[i]); 
+
+			x += 75; // move to the right 
+	
+		}
+	}
+
+	function draw(){
+		ctx.drawImage(table, 0 , 0);
+		
+	}
+
+	window.onload = draw; 
+
+	</script>
+</html>
