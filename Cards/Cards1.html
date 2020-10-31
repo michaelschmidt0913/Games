@@ -20,11 +20,9 @@
 	// image object for the table image 
 	var table = new Image(); 
 	table.src = "images/table.png"; // source for table image 
-
 	// Array to hold the card Images.
 	var deck = new Array();
 	createDeck();
-
 
 	function createDeck(){
 		for(var i=0; i<=52; i++){
@@ -33,7 +31,6 @@
 			deck.push(myCard);
 		}
 	}
-
 
 	function drawDeck(){
 		
@@ -51,16 +48,12 @@
 			console.log(deck[i]); 
 
 			x += 75; // move to the right 
-	
 		}
 	}
 
 	function draw(){
 		ctx.drawImage(table, 0 , 0);
-		
 	}
-
 	window.onload = draw; 
-
 	</script>
 </html>
