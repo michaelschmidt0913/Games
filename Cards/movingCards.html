@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+      background-color: #A4A4A4;
+    }   
+</style>
+<body>
+<canvas id="canvas" width=600 height=600></canvas>
+<script>
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext('2d');
+
+
+var sources = new Array();
+sources.push('images/cards/gbCard0.gif');    //0 
+
+
+var bDragged = false;
+
+canvas.addEventListener("mousedown", select); // handlers for events 
+canvas.addEventListener("mousemove", move);
+canvas.addEventListener("mouseup", deselect);
+
+function select(e) {
+  
+  if (checkBounds(picture1, e.clientX, e.clientY)) {
+    bDragged = true;
+  }
+  } // end of select
+
+function move(e) {
+
+  if (bDragged) {
+    picture1.X = e.clientX - 37;
+    picture1.Y = e.clientY - 37;
+  }
+}
+
+function deselect(e) {
+  bDragged = false;
+}
+
+function checkBounds(picture, mouse_x, mouse_y) {
+  if (mouse_x < (picture.X + picture.width) && (mouse_x > picture.X) && mouse_y < (picture.Y + picture.height) && (mouse_y > picture.Y)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+var picture1 = new Image();
+
+picture1.src = sources[0];
+picture1.X = 10;
+picture1.Y = 0;
+
+function update(){
+
+}
+
+function draw() {
+  canvas.width = canvas.width
+    //Draw Sprites on screen 
+
+  context.drawImage(picture1, picture1.X, picture1.Y);
+  
+} //End of draw
+
+function game_loop() {
+  update();
+  draw();
+}
+
+setInterval(game_loop, 30);
+
+
+</script>
+</body>
+</html>

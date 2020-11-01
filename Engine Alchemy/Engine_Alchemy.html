@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+      background-color: #A4A4A4;
+    }   
+</style>
+<body>
+<canvas id="canvas" width=600 height=600></canvas>
+<script>
+
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext('2d');
+
+var names = new Array(); //names array
+names.push('Dodge'); 		//0
+names.push('Ford'); 		//1 
+names.push('chevrolet'); 	//2
+names.push('Hemi');     	//3 
+names.push('429 Block'); 	//4 
+names.push('350 Block'); 	//5 
+names.push('Charger');  	//6 
+names.push('mustang GT');   //7 
+names.push('Chevelle'); 	//8 
+
+var sources = new Array();
+sources.push('images/stripes.png'); 	//0
+sources.push('images/dodge.png'); 		//1
+sources.push('images/ford.png'); 		//2 
+sources.push('images/chevrolet.png'); 	//3 
+sources.push('images/Hemi.png'); 		//4 
+sources.push('images/429.png'); 		//5 
+sources.push('images/350.jpg'); 		//6 
+sources.push('images/fordGT.jpg'); 		//7 ford 
+sources.push('images/charger.png'); 	//8 dodge
+sources.push('images/ss.png'); 			//9 chevolet  
+
+var stripe = new Image();			//racing stripes 
+stripe.src = sources[0];								
+var selected = "guess that engine?"; 
+var bDragged = false;
+var ford_outPut = false;	//used to display the correct output
+var dodge_outPut = false;
+var chev_output = false;
+
+canvas.addEventListener("mousedown", select);	// handlers for events 
+canvas.addEventListener("mousemove", move);
+canvas.addEventListener("mouseup", deselect);
+
+function select(e) {
+  selected = e.clientX + "," + e.clientY;
+  if (checkBounds(pictureA, e.clientX, e.clientY)) {
+    selected = names[0];
+  }
+  if (checkBounds(pictureB, e.clientX, e.clientY)) {
+    selected = names[1];
+  }
+  if (checkBounds(pictureC, e.clientX, e.clientY)) {
+    selected = names[2];
+  }
+  if (checkBounds(picture1, e.clientX, e.clientY)) {
+    selected = names[3];
+  }
+  if (checkBounds(picture2, e.clientX, e.clientY)) {
+    selected = names[4];
+  }
+  if (checkBounds(picture3, e.clientX, e.clientY)) {
+    selected = names[5];
+  }
+  if (selected == names[0] || selected == names[1] || selected == names[2] || selected == names[3] || selected == names[4] || selected == names[5]) {
+    bDragged = true;
+  }
+} // end of select
+
+function move(e) {
+
+  if (bDragged && selected == names[3]) {
+    picture1.X = e.clientX - 37;
+    picture1.Y = e.clientY - 37;
+  }
+  if (bDragged && selected == names[4]) {
+    picture2.X = e.clientX - 37;
+    picture2.Y = e.clientY - 37;
+  }
+  if (bDragged && selected == names[5]) {
+    picture3.X = e.clientX - 37;
+    picture3.Y = e.clientY - 37;
+  }
+}
+
+function deselect(e) {
+  bDragged = false;
+
+  if (selected == names[4] && checkBounds(pictureB, e.clientX, e.clientY)) {
+    ford_outPut = true;
+  } else {
+    ford_outPut = false;
+  }
+  if (selected == names[3] && checkBounds(pictureA, e.clientX, e.clientY)) {
+    dodge_outPut = true;
+  } else {
+    dodge_outPut = false;
+  }
+  if (selected == names[5] && checkBounds(pictureC, e.clientX, e.clientY)) {
+    chev_output = true;
+  } else {
+    chev_output = false;
+  }
+}
+
+function checkBounds(picture, mouse_x, mouse_y) {
+  if (mouse_x < (picture.X + picture.width) && (mouse_x > picture.X) && mouse_y < (picture.Y + picture.height) && (mouse_y > picture.Y)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var pictureA = new Image();
+pictureA.width = 110;
+pictureA.height = 110;
+pictureA.src = sources[1];
+pictureA.X = 250;
+pictureA.Y = 110;
+
+var pictureB = new Image();
+pictureB.width = 110;
+pictureB.height = 110;
+pictureB.src = sources[2];
+pictureB.X = 250;
+pictureB.Y = 250;
+
+var pictureC = new Image();
+pictureC.width = 110;
+pictureC.height = 110;
+pictureC.src = sources[3];
+pictureC.X = 250;
+pictureC.Y = 0;
+
+var picture1 = new Image();
+picture1.width = 125;
+picture1.height = 125;
+picture1.src = sources[4];
+picture1.X = 10;
+picture1.Y = 0;
+
+var picture2 = new Image();
+picture2.width = 125;
+picture2.height = 125;
+picture2.src = sources[5];
+picture2.X = 10;
+picture2.Y = 140;
+
+var picture3 = new Image();
+picture3.width = 125
+picture3.height = 125;
+picture3.src = sources[6];
+picture3.X = 10;
+picture3.Y = 275;
+
+var pictureB1 = new Image();
+pictureB1.width = 140;
+pictureB1.height = 135;
+pictureB1.src = sources[7];
+pictureB1.X = 430;
+pictureB1.Y = 250;
+
+var pictureB2 = new Image();
+pictureB2.width = 140;
+pictureB2.height = 135;
+pictureB2.src = sources[8];
+pictureB2.X = 430;
+pictureB2.Y = 200;
+
+var pictureB3 = new Image();
+pictureB3.width = 150;
+pictureB3.height = 150;
+pictureB3.src = sources[9];
+pictureB3.X = 430;
+pictureB3.Y = 20;
+
+function update(){
+
+}
+
+function draw() {
+  canvas.width = canvas.width
+    //Draw Sprites on screen 
+
+  context.drawImage(stripe, 200, 0);
+  context.drawImage(stripe, 375, 0);
+
+  context.drawImage(pictureA, pictureA.X, pictureA.Y, pictureA.width, pictureA.height);
+  context.drawImage(pictureB, pictureB.X, pictureB.Y, pictureB.width, pictureB.height);
+  context.drawImage(pictureC, pictureC.X, pictureC.Y, pictureC.width, pictureC.height);
+  context.drawImage(picture1, picture1.X, picture1.Y, picture1.width, picture1.height);
+  context.drawImage(picture2, picture2.X, picture2.Y, picture2.width, picture2.height);
+  context.drawImage(picture3, picture3.X, picture3.Y, picture3.width, picture3.height);
+
+	context.font = "18px Lucida Console";
+  context.fillText(selected, 0, 430);
+
+  if (ford_outPut == true && selected == names[4]) {
+    context.drawImage(pictureB1, pictureB1.X, pictureB1.Y, pictureB1.width, pictureB1.height);
+ context.fillText(names[7], pictureB1.X, pictureB1.Y);
+  }
+  if (dodge_outPut == true && selected == names[3]) {
+    context.drawImage(pictureB2, pictureB2.X, pictureB2.Y, pictureB2.width, pictureB2.height);
+    context.fillText(names[6], pictureB2.X, pictureB2.Y);
+  }
+  if (chev_output == true && selected == names[5]) {
+    context.drawImage(pictureB3, pictureB3.X, pictureB3.Y, pictureB3.width, pictureB3.height);
+  context.fillText(names[8], pictureB3.X, pictureB3.Y);
+  }
+} //End of draw
+
+function game_loop() {
+  update();
+  draw();
+}
+
+setInterval(game_loop, 30);
+
+
+</script>
+</body>
+</html>
