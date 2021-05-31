@@ -7,7 +7,7 @@
 	<body>
 		<h2>Cards</h2>
 		<div>
-			<button onclick="createDeck()">NewDeck</button></div>
+			<button onclick="createDeck(),drawBack(); ">NewDeck</button></div>
 		<div>
 		<div>
 			<button onclick="DrawAllCards()">DrawAllCards</button></div>
@@ -19,11 +19,21 @@
 
 	var canvas = document.getElementById("cardTable");
 	var ctx = canvas.getContext("2d"); 
+
 	// image object for the table image 
 	var table = new Image(); 
 	table.src = "images/table.png"; // source for table image 
+	
+	var cardBack = new Image(); 
+	cardBack.src = "images/cards/gbCard" + 52 + ".gif";
+
+
 	var theDeck = new Array();
 
+	////////////////////////////////////////////////////////
+
+	//Card functions// 
+	////////////////////////////////////////////////////////
  	function createDeck(){ 
 		for(var i =0; i<53; i++){
 			var theCard = new Image();
@@ -33,25 +43,52 @@
 		}
 		//console.log("//////////////////");
     } // end of createDeck 
+    /////////////////////////////////////////////////////////
 
+    //Draw functions//  
+    /////////////////////////////////////////////////////////
     function DrawAllCards(){
 
-    	var x=10; // Draw Point x
-		var y=10; // Draw point y 
-		var i; 
+    	if(theDeck.length === 0){
+    		console.log("create new Deck first");
+    	}else{
+
+    		var x=10; // Draw Point x
+			var y=10; // Draw point y 
+			var i; 
 		
-		for(i = 0; i < 53; i ++){
-			if(i === 13 || i === 26 || i === 39 || i ===52){
-				x = 10; // move back to starting point on x 
-				y +=110; // move down to the next row of cards.
-			}
-			theDeck[i].setx(x);
-			theDeck[i].sety(y);
-			x += 75; // move to the right
-			theDeck[i].drawCard();
-			//console.log(theDeck[i]);
-		}
-    } // end of DrawAllCards
+			for(i = 0; i < 53; i ++){
+				if(i === 13 || i === 26 || i === 39 || i ===52){
+					x = 10; // move back to starting point on x 
+					y +=110; // move down to the next row of cards.
+				}
+				theDeck[i].setx(x);
+				theDeck[i].sety(y);
+				x += 75; // move to the right
+				theDeck[i].drawCard();
+				//console.log(theDeck[i]);
+			} // end of DrawAll cards code
+   		 } //end of else 
+   		}  //end of draw all cards
+		/////////////////////////////////////
+   		/////////////////////////////////////
+   		function drawBack(){
+   				
+   				var x=10;
+   				var y=10; 
+   			    var i;
+
+   			    for(i=0; i<53; i++){
+   					ctx.drawImage(cardBack, x, y)
+   					x +=17
+   				}
+   		}
+   		/////////////////////////////////////
+   		/////////////////////////////////////
+	/////////////////////////////////////////////////////////
+
+	//Classs// 
+	/////////////////////////////////////////////////////////
 
     class card{
     	constructor(img, the_x, the_y ) {
@@ -70,10 +107,16 @@
 		}      
     }; // end of card class 
 
+    /////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////
+    // do this first code
 	window.onload = draw; 
 
 	function draw(){
 	ctx.drawImage(table, 0 , 0);
 	}
+
+	/////////////////////////////////////////////////////////
 	</script>
 </html>
