@@ -7,7 +7,7 @@
 	<body>
 		<h2>Cards</h2>
 		<div>
-			<button onclick="createDeck(),drawBack(); ">NewDeck</button></div>
+			<button onclick="createDeck() ">NewDeck</button></div>
 		<div>
 		<div>
 			<button onclick="DrawAllCards()">DrawAllCards</button></div>
@@ -16,41 +16,40 @@
 		</div>
 	</body>
 	<script>
+	////////////////////////////////////////////////////////
+	
+	//variables//
+	////////////////////////////////////////////////////////
 
 	var canvas = document.getElementById("cardTable");
-	var ctx = canvas.getContext("2d"); 
-
-	// image object for the table image 
-	var table = new Image(); 
+	var ctx = canvas.getContext("2d");  
+	var table = new Image(); // image object for the table image
 	table.src = "images/table.png"; // source for table image 
-	
-	var cardBack = new Image(); 
-	cardBack.src = "images/cards/gbCard" + 52 + ".gif";
-
-
-	var theDeck = new Array();
+	var theDeck = new Array(); // array to hold card objects. 
 
 	////////////////////////////////////////////////////////
 
 	//Card functions// 
 	////////////////////////////////////////////////////////
+
  	function createDeck(){ 
 		for(var i =0; i<53; i++){
 			var theCard = new Image();
 			theCard.src = "images/cards/gbCard" + i +".gif";  // get the source for the source
 			theDeck[i] = new card(theCard, 10, 10);
 			console.log(theDeck[i]);
-		}
-		//console.log("//////////////////");
+		} //end of for loop
     } // end of createDeck 
+
     /////////////////////////////////////////////////////////
 
     //Draw functions//  
     /////////////////////////////////////////////////////////
+
     function DrawAllCards(){
 
-    	if(theDeck.length === 0){
-    		console.log("create new Deck first");
+    	if(theDeck.length === 0){	// only draw deck if it exist.
+    		console.log("create new Deck first"); 
     	}else{
 
     		var x=10; // Draw Point x
@@ -70,21 +69,7 @@
 			} // end of DrawAll cards code
    		 } //end of else 
    		}  //end of draw all cards
-		/////////////////////////////////////
-   		/////////////////////////////////////
-   		function drawBack(){
-   				
-   				var x=10;
-   				var y=10; 
-   			    var i;
 
-   			    for(i=0; i<53; i++){
-   					ctx.drawImage(cardBack, x, y)
-   					x +=17
-   				}
-   		}
-   		/////////////////////////////////////
-   		/////////////////////////////////////
 	/////////////////////////////////////////////////////////
 
 	//Classs// 
@@ -109,8 +94,9 @@
 
     /////////////////////////////////////////////////////////
 
+    //start up code// 
     /////////////////////////////////////////////////////////
-    // do this first code
+
 	window.onload = draw; 
 
 	function draw(){

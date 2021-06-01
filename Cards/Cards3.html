@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<meta charset="utf-8" /> 
+<html>
+	<head>
+		<title>Cards</title>
+	</head>
+	<body>
+		<h2>Cards</h2>
+		<div>
+			<button onclick="newDeck() ">NewDeck</button></div>
+		<div>
+		<div>
+			<button onclick="displayDeck()">DrawAllCards</button></div>
+		<div>
+			<canvas id="cardTable" width=1000 height=800></canvas>
+		</div>
+	</body>
+	<script>
+	
+	////////////////////////////////////////////////////////
+	//variables//
+
+	canvas = document.getElementById('cardTable');
+    context = canvas.getContext('2d');
+    var table = new Image(); // image object for the table image
+	table.src = "images/table.png"; // source for table image
+	var theDeck = new Array(); 
+	var DeckExist = false; 
+	var displayBack = false; 
+	var back = new Image(); // image object for the table image
+	back.src = "images/cards/gbCard52.gif"; // source for table image
+	////////////////////////////////////////////////////////
+
+	//Deck functions// 
+	////////////////////////////////////////////////////////
+
+    function newDeck(){
+    	for(var i =0; i<53; i++){
+			var theCard = new Image();
+			theCard.src = "images/cards/gbCard" + i +".gif";  // get the source for the source
+			theDeck[i] = new card(theCard, 10, 10);
+			console.log(theDeck[i]);
+		} //end of for loop
+		DeckExist = true; 
+		displayBack = true; 
+    }
+
+    function displayDeck(){
+    	displayBack = false; 
+    }
+
+    /////////////////////////////////////////////////////////
+
+	//CLASSES// 
+	/////////////////////////////////////////////////////////
+
+    class card{
+    	constructor(img, the_x, the_y ){
+    		this.x = the_x; //x	// where the obstacles are drawn 
+            this.y = the_y; //y // 
+     		this.cardImg = img; 
+     	}
+     	drawCard(){
+                context.drawImage(this.cardImg, this.x, this.y);
+            };
+        setx(new_x){
+        	this.x = new_x;	
+        }   
+		sety(new_y){
+			this.y = new_y;
+		}      
+    }; // end of card class 
+
+    ////////////////////////////////////////////////////////////
+
+    //DRAW//
+	////////////////////////////////////////////////////////////
+
+	function draw(){
+		
+		context.drawImage(table, 0 , 0); // draw the card table
+
+		if(DeckExist === true){
+
+			if(displayBack === false){
+
+				var x=10; // Draw Point x
+				var y=10; // Draw point y 
+				var i; 
+		
+				for(i = 0; i < 52; i ++){
+					if(i === 13 || i === 26 || i === 39 || i ===52){
+						x = 10; // move back to starting point on x 
+						y +=110; // move down to the next row of cards.
+					}
+					theDeck[i].setx(x);
+					theDeck[i].sety(y);
+					x += 75; // move to the right
+					theDeck[i].drawCard();
+					//console.log(theDeck[i]);
+				}	
+
+			}else{ // else display the back
+				
+				var a=10; // Draw Point x
+				var b=10; // Draw point y 
+				var z; 
+
+				for(z = 0; z < 52; z ++){
+					context.drawImage(back, a, b);
+						a += 18; 
+					}
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////
+
+    //GAME_LOOP()//
+    ////////////////////////////////////////////////////////////
+
+    function gameLoop(){ 
+    	draw(); 
+    }
+    setInterval(gameLoop, 30);
+    
+    ////////////////////////////////////////////////////////////           
+	</script>
+</html>
