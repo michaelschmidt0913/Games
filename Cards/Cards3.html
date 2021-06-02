@@ -41,7 +41,7 @@ function newDeck() {
 		var theCard = new Image();
 		theCard.src = "images/cards/gbCard" + i + ".gif"; // get the source for the source
 		theDeck[i] = new card(theCard, 10, 10);
-		console.log(theDeck[i]);
+		//console.log(theDeck[i]);
 	} //end of for loop
 	DeckExist = true;
 	displayBack = true;
@@ -52,7 +52,21 @@ function displayDeck() {
 } 
 
 function shuffleCards(){
-	console.log("shuffle cards")
+	//console.log("shuffle cards")
+
+  var currentIndex = theDeck.length,  randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [theDeck[currentIndex], theDeck[randomIndex]] = [
+      theDeck[randomIndex], theDeck[currentIndex]];
+  }
 }
 
 /////////////////////////////////////////////////////////
