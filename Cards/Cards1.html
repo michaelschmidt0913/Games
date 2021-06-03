@@ -14,6 +14,11 @@
 		</div>
 	</body>
 	<script>
+////////////////////////////////////////////////////////
+
+//variables//
+////////////////////////////////////////////////////////
+		
 var canvas = document.getElementById("cardTable");
 var ctx = canvas.getContext("2d");
 // image object for the table image 
@@ -22,6 +27,11 @@ table.src = "images/table.png"; // source for table image
 // Array to hold the card Images.
 var deck = new Array();
 createDeck();
+
+////////////////////////////////////////////////////////
+
+//Deck functions// 
+////////////////////////////////////////////////////////
 
 function createDeck() {
 	for (var i = 0; i <= 52; i++) {
@@ -41,18 +51,19 @@ function drawDeck() {
 			x = 10; // move back to starting point on x 
 			y += 110; // move down to the next row of cards. 
 		}
-
 		ctx.drawImage(deck[i], x, y);
-
-		console.log(deck[i]);
-
 		x += 75; // move to the right 
+
 	}
 }
+////////////////////////////////////////////////////////
 
+//main Draw// 
+////////////////////////////////////////////////////////
 function draw() {
 	ctx.drawImage(table, 0, 0);
 }
 window.onload = draw;
+////////////////////////////////////////////////////////
 	</script>
 </html>

@@ -20,7 +20,9 @@
 	</body>
 	<script>
 ////////////////////////////////////////////////////////
+
 //variables//
+////////////////////////////////////////////////////////
 
 canvas = document.getElementById('cardTable');
 context = canvas.getContext('2d');
@@ -31,43 +33,59 @@ var DeckExist = false;
 var displayBack = false;
 var back = new Image(); // image object for back of card. 
 back.src = "images/cards/gbCard52.gif";
+
 ////////////////////////////////////////////////////////
 
 //Deck functions// 
 ////////////////////////////////////////////////////////
 
 function newDeck() {
+
+	console.log("New Deck");
 	for (var i = 0; i <= 51; i++) {
 		var theCard = new Image();
 		theCard.src = "images/cards/gbCard" + i + ".gif"; // get the source for the source
 		theDeck[i] = new card(theCard, 10, 10);
-		//console.log(theDeck[i]);
+		console.log(theDeck[i]);
 	} //end of for loop
 	DeckExist = true;
 	displayBack = true;
-}
+
+} //end of newDeck
 
 function displayDeck() {
-	displayBack = false;
-} 
+	
+	if(DeckExist === true){
+		console.log("Display all cards");
+		displayBack = false;
+	}else{
+		console.log("create Deck first");
+	}
 
-function shuffleCards(){
-	//console.log("shuffle cards")
+} // end of displayDeck
 
-  var currentIndex = theDeck.length,  randomIndex;
+function shuffleCards() {
+	
+	if(DeckExist === true){
+		console.log("shuffle cards");
+		var currentIndex = theDeck.length, randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+		// While there remain elements to shuffle...
+		while (0 !== currentIndex) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+			// Pick a remaining element...
+			randomIndex = Math.floor(Math.random() * currentIndex);
+			currentIndex--;
 
-    // And swap it with the current element.
-    [theDeck[currentIndex], theDeck[randomIndex]] = [
-      theDeck[randomIndex], theDeck[currentIndex]];
-  }
-}
+			// And swap it with the current element.
+			[theDeck[currentIndex], theDeck[randomIndex]] = [theDeck[randomIndex], theDeck[currentIndex]];
+	
+		} // end of while loop.
+	}else{
+		console.log("create Deck first");
+	}
+
+}// end of function 
 
 /////////////////////////////////////////////////////////
 
@@ -102,21 +120,21 @@ function draw() {
 
 	if (DeckExist === true) { // only go in here if the deck exist, 
 
-		if(displayBack === true){	// draw just back of cards when the deck is created.
+		if (displayBack === true) { // draw just back of cards when the deck is created.
 
 			var a = 150; // Draw Point a - x
 			var b = 50; // Draw point b - y
 			var z;
 
 			for (z = 0; z < 52; z++) {
-				if(z === 26){
-					a =150;
-					b += 110; 
+				if (z === 26) {
+					a = 150;
+					b += 110;
 				}
 				context.drawImage(back, a, b);
 				a += 25;
 			}
-		}else if(displayBack === false){ // draw all the cards on screen. 
+		} else if (displayBack === false) { // draw all the cards on screen. 
 			var x = 10; // Draw Point x
 			var y = 10; // Draw point y 
 			var i;
@@ -146,6 +164,6 @@ function gameLoop() {
 }
 setInterval(gameLoop, 30);
 
-////////////////////////////////////////////////////////////    
+////////////////////////////////////////////////////////////
 	</script>
 </html>
