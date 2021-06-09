@@ -31,6 +31,10 @@ var DeckExist = false;
 var displayBack = false;
 var back = new Image(); // image object for back of card. 
 back.src = "images/cards/gbCard52.gif";
+
+var myAudio = new Audio("audio/card2.mp3");
+
+
 ////////////////////////////////////////////////////////
 
 //Deck functions// 
@@ -52,7 +56,8 @@ function displayDeck() {
 } 
 
 function shuffleCards(){
-	//console.log("shuffle cards")
+	console.log("shuffle cards");
+	myAudio.play();
 
   var currentIndex = theDeck.length,  randomIndex;
 
