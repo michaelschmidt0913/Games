@@ -32,9 +32,6 @@ var displayBack = false;
 var back = new Image(); // image object for back of card. 
 back.src = "images/cards/gbCard52.gif";
 
-var myAudio = new Audio("audio/card2.mp3");
-
-
 ////////////////////////////////////////////////////////
 
 //Deck functions// 
@@ -57,7 +54,6 @@ function displayDeck() {
 
 function shuffleCards(){
 	console.log("shuffle cards");
-	myAudio.play();
 
   var currentIndex = theDeck.length,  randomIndex;
 
@@ -108,7 +104,6 @@ function draw() {
 	if (DeckExist === true) { // only go in here if the deck exist, 
 
 		if(displayBack === true){	// draw just back of cards when the deck is created.
-
 			var a = 150; // Draw Point a - x
 			var b = 50; // Draw point b - y
 			var z;
@@ -136,9 +131,11 @@ function draw() {
 				x += 75; // move to the right
 				theDeck[i].drawCard();
 				//console.log(theDeck[i]);
-			}
-		}
+			} //end of for loop 
+		}// end of else if 
+
 	} // if deck exist 
+
 } // end of draw 
 
 ////////////////////////////////////////////////////////////
